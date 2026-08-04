@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your participation | Digital MTA prototype</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f3f0e8;
+      --surface: rgba(255, 255, 255, 0.82);
+      --surface-border: rgba(27, 37, 41, 0.1);
+      --text: #132026;
+      --muted: #53656d;
+      --accent: #0f766e;
+      --accent-2: #e76f51;
+      --shadow: 0 24px 60px rgba(19, 32, 38, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { margin: 0; min-height: 100%; }
+
+    body {
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(215, 239, 233, 0.9), transparent 34%),
+        radial-gradient(circle at top right, rgba(231, 111, 81, 0.18), transparent 30%),
+        linear-gradient(180deg, #fbf8f1 0%, var(--bg) 100%);
+      line-height: 1.5;
+    }
+
+    .page {
+      width: min(1200px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 32px 0 48px;
+    }
+
+    .panel {
+      padding: 28px;
+      border: 1px solid var(--surface-border);
+      border-radius: 32px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 26px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(15, 118, 110, 0.1);
+      color: var(--accent);
+      font: 700 0.78rem/1.1 system-ui, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: var(--accent-2);
+      box-shadow: 0 0 0 6px rgba(231, 111, 81, 0.12);
+    }
+
+    a.back {
+      color: var(--accent);
+      font: 700 0.9rem/1 system-ui, sans-serif;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(15, 118, 110, 0.3);
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 12ch;
+      font-size: clamp(3rem, 9vw, 6rem);
+      line-height: 0.95;
+      letter-spacing: -0.06em;
+    }
+
+    .intro {
+      max-width: 760px;
+      margin: 18px 0 0;
+      font-size: clamp(1.05rem, 2vw, 1.25rem);
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 26px;
+    }
+
+    .card {
+      position: relative;
+      min-height: 300px;
+      padding: 24px;
+      border: 1px solid var(--surface-border);
+      border-radius: 26px;
+      background: rgba(255, 255, 255, 0.7);
+      box-shadow: 0 14px 34px rgba(19, 32, 38, 0.08);
+      overflow: hidden;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      inset: auto -22px -22px auto;
+      width: 104px;
+      height: 104px;
+      border-radius: 30px;
+      background: linear-gradient(135deg, rgba(15, 118, 110, 0.15), rgba(231, 111, 81, 0.1));
+      transform: rotate(18deg);
+    }
+
+    .card .kicker {
+      display: inline-block;
+      margin-bottom: 16px;
+      font: 700 0.72rem/1 system-ui, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--accent);
+    }
+
+    .card h2 {
+      margin: 0 0 10px;
+      font-size: 1.5rem;
+      letter-spacing: -0.03em;
+      text-transform: lowercase;
+    }
+
+    .card p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      max-width: 30ch;
+      color: var(--muted);
+      font: 500 0.98rem/1.6 system-ui, sans-serif;
+    }
+
+    .card ul {
+      position: relative;
+      z-index: 1;
+      margin: 16px 0 0;
+      padding-left: 18px;
+      color: var(--text);
+      font: 500 0.96rem/1.6 system-ui, sans-serif;
+    }
+
+    .card li + li { margin-top: 8px; }
+
+    .callout {
+      margin-top: 18px;
+      padding: 24px;
+      border-radius: 26px;
+      border: 1px solid rgba(15, 118, 110, 0.16);
+      background: rgba(215, 239, 233, 0.35);
+    }
+
+    .callout h2 {
+      margin: 0 0 8px;
+      font-size: 1.5rem;
+      letter-spacing: -0.03em;
+    }
+
+    .callout p {
+      margin: 0;
+      color: var(--muted);
+      font: 500 0.98rem/1.6 system-ui, sans-serif;
+      max-width: 70ch;
+    }
+
+    .questions {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .question {
+      padding: 16px 14px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(19, 32, 38, 0.08);
+    }
+
+    .question .num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      margin-bottom: 12px;
+      border-radius: 999px;
+      background: rgba(15, 118, 110, 0.12);
+      color: var(--accent);
+      font: 800 0.78rem/1 system-ui, sans-serif;
+    }
+
+    .question h3 {
+      margin: 0;
+      font: 700 1rem/1.35 system-ui, sans-serif;
+      letter-spacing: -0.02em;
+    }
+
+    .question p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font: 500 0.92rem/1.5 system-ui, sans-serif;
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      color: var(--muted);
+      font: 500 0.92rem/1.6 system-ui, sans-serif;
+    }
+
+    @media (max-width: 980px) {
+      .grid, .questions { grid-template-columns: 1fr; }
+      .topbar { flex-direction: column; align-items: flex-start; }
+      .card { min-height: auto; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="panel" aria-labelledby="participation-title">
+      <div class="topbar">
+        <div class="eyebrow">Your participation</div>
+        <a class="back" href="index.html">Back to home</a>
+      </div>
+      <h1 id="participation-title">Crowdsourcing ideas with visitors</h1>
+      <p class="intro">This page is for collecting ideas, reactions, and small contributions from potential visitors so we can shape the digital MTA around how people actually want to explore it.</p>
+
+      <section class="grid" aria-label="Crowdsourcing options">
+        <article class="card">
+          <span class="kicker">01</span>
+          <h2>vote on what matters</h2>
+          <p>Ask visitors to pick which views, filters, or story paths they would use first.</p>
+          <ul>
+            <li>Choose the most useful object grouping</li>
+            <li>Rank the clearest labels or tags</li>
+            <li>Mark the view you would click first</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <span class="kicker">02</span>
+          <h2>tag patterns and themes</h2>
+          <p>Invite people to add words that describe what the dot-based views should highlight.</p>
+          <ul>
+            <li>Object type</li>
+            <li>Location or origin</li>
+            <li>Time period, style, or story</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <span class="kicker">03</span>
+          <h2>submit a contribution</h2>
+          <p>Let visitors share one idea, one question, or one example of a museum object they would want to find.</p>
+          <ul>
+            <li>A favorite object topic</li>
+            <li>A search question</li>
+            <li>A missing feature or idea</li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="callout" aria-labelledby="questions-title">
+        <h2 id="questions-title">Five questions for participants</h2>
+        <p>Use these prompts to gather fast feedback from a crowd, a workshop group, or a visitor test session.</p>
+        <div class="questions">
+          <div class="question">
+            <div class="num">1</div>
+            <h3>What would make you want to contribute here?</h3>
+            <p>Finds the motivation that could drive participation.</p>
+          </div>
+          <div class="question">
+            <div class="num">2</div>
+            <h3>What kind of museum object would you submit first?</h3>
+            <p>Reveals which object types feel most relevant.</p>
+          </div>
+          <div class="question">
+            <div class="num">3</div>
+            <h3>What would you expect to happen after you add a tag or vote?</h3>
+            <p>Checks whether the feedback loop feels clear.</p>
+          </div>
+          <div class="question">
+            <div class="num">4</div>
+            <h3>What would make this feel trustworthy and worth your time?</h3>
+            <p>Surfaces trust, value, and moderation needs.</p>
+          </div>
+          <div class="question">
+            <div class="num">5</div>
+            <h3>What would make the crowdsourcing flow too long or confusing?</h3>
+            <p>Identifies friction before the page is finalized.</p>
+          </div>
+        </div>
+        <div class="footer-note">If you want, this page can later become a simple form or a live collection wall.</div>
+      </section>
+    </section>
+  </main>
+</body>
+</html>
