@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explore | Digital MTA prototype</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f3f0e8;
+      --surface: rgba(255, 255, 255, 0.82);
+      --surface-border: rgba(27, 37, 41, 0.1);
+      --text: #132026;
+      --muted: #53656d;
+      --accent: #0f766e;
+      --accent-2: #e76f51;
+      --shadow: 0 24px 60px rgba(19, 32, 38, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { margin: 0; min-height: 100%; }
+
+    body {
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(215, 239, 233, 0.9), transparent 34%),
+        radial-gradient(circle at top right, rgba(231, 111, 81, 0.18), transparent 30%),
+        linear-gradient(180deg, #fbf8f1 0%, var(--bg) 100%);
+      line-height: 1.5;
+    }
+
+    .page {
+      width: min(1100px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 32px 0 48px;
+    }
+
+    .panel {
+      padding: 28px;
+      border: 1px solid var(--surface-border);
+      border-radius: 32px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 26px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(15, 118, 110, 0.1);
+      color: var(--accent);
+      font: 700 0.78rem/1.1 system-ui, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: var(--accent-2);
+      box-shadow: 0 0 0 6px rgba(231, 111, 81, 0.12);
+    }
+
+    a.back {
+      color: var(--accent);
+      font: 700 0.9rem/1 system-ui, sans-serif;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(15, 118, 110, 0.3);
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 12ch;
+      font-size: clamp(3rem, 9vw, 6rem);
+      line-height: 0.95;
+      letter-spacing: -0.06em;
+    }
+
+    .intro {
+      max-width: 760px;
+      margin: 18px 0 0;
+      font-size: clamp(1.05rem, 2vw, 1.25rem);
+      color: var(--muted);
+    }
+
+    .wip {
+      margin-top: 26px;
+      padding: 24px;
+      border-radius: 26px;
+      border: 1px solid rgba(15, 118, 110, 0.16);
+      background: rgba(215, 239, 233, 0.35);
+    }
+
+    .wip h2 {
+      margin: 0 0 8px;
+      font-size: 1.5rem;
+      letter-spacing: -0.03em;
+    }
+
+    .wip p {
+      margin: 0;
+      color: var(--muted);
+      font: 500 0.98rem/1.6 system-ui, sans-serif;
+      max-width: 66ch;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .card {
+      position: relative;
+      min-height: 180px;
+      padding: 24px;
+      border: 1px solid var(--surface-border);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.7);
+      box-shadow: 0 14px 34px rgba(19, 32, 38, 0.08);
+      overflow: hidden;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      inset: auto -18px -18px auto;
+      width: 92px;
+      height: 92px;
+      border-radius: 28px;
+      background: linear-gradient(135deg, rgba(15, 118, 110, 0.15), rgba(231, 111, 81, 0.1));
+      transform: rotate(18deg);
+    }
+
+    .card .kicker {
+      display: inline-block;
+      margin-bottom: 14px;
+      font: 700 0.72rem/1 system-ui, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--accent);
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 1.25rem;
+      letter-spacing: -0.03em;
+      text-transform: lowercase;
+    }
+
+    .card p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--muted);
+      font: 500 0.95rem/1.6 system-ui, sans-serif;
+    }
+
+    .placeholder {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: 22px;
+      border: 1px dashed rgba(19, 32, 38, 0.14);
+      background: rgba(255, 255, 255, 0.55);
+    }
+
+    .placeholder-row {
+      height: 14px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(15, 118, 110, 0.12), rgba(231, 111, 81, 0.12));
+    }
+
+    .placeholder-row.short { width: 62%; }
+    .placeholder-row.medium { width: 82%; }
+    .placeholder-row.long { width: 100%; }
+
+    @media (max-width: 960px) {
+      .cards { grid-template-columns: 1fr; }
+      .topbar { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="panel" aria-labelledby="explore-title">
+      <div class="topbar">
+        <div class="eyebrow">Explore</div>
+        <a class="back" href="index.html">Back to home</a>
+      </div>
+      <h1 id="explore-title">Healing is a work in progress</h1>
+      <p class="intro">This subpage is a placeholder for thinking about how to support and understand healing in the digital MTA prototype.</p>
+
+      <section class="wip" aria-labelledby="wip-title">
+        <h2 id="wip-title">How can we contribute to the idea of healing?</h2>
+        <p>Thinking about how to create a supportive environment for users on their healing journey, how it respond to the healing process.</p>
+      </section>
+
+      <section class="cards" aria-label="Placeholder sections">
+        <article class="card">
+          <span class="kicker">01</span>
+          <h3>browse</h3>
+          <p>Placeholder for ideas about embedding healing in the design.</p>
+          <div class="placeholder" aria-hidden="true">
+            <div class="placeholder-row long"></div>
+            <div class="placeholder-row medium"></div>
+            <div class="placeholder-row short"></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <span class="kicker">02</span>
+          <h3>filter</h3>
+          <p>Placeholder for filtering by type, place, or time.</p>
+          <div class="placeholder" aria-hidden="true">
+            <div class="placeholder-row medium"></div>
+            <div class="placeholder-row long"></div>
+            <div class="placeholder-row short"></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <span class="kicker">03</span>
+          <h3>details</h3>
+          <p>Placeholder for object detail panels and follow-up actions.</p>
+          <div class="placeholder" aria-hidden="true">
+            <div class="placeholder-row short"></div>
+            <div class="placeholder-row long"></div>
+            <div class="placeholder-row medium"></div>
+          </div>
+        </article>
+      </section>
+    </section>
+  </main>
+</body>
+</html>
